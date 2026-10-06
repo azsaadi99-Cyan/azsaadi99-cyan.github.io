@@ -1,4 +1,2 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://azsaadi99-cyan.github.io/sitemap.xml
