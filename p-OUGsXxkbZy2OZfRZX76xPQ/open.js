@@ -6,7 +6,7 @@
  const decode=s=>Uint8Array.from(atob(s.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));
  try{
   const key=await crypto.subtle.importKey('raw',decode(keyText),'AES-GCM',false,['decrypt']);
-  const response=await fetch('content-266bebdc5637d6.bin');if(!response.ok)throw Error('Unavailable');
+  const response=await fetch('content-4d8511affe4173.bin');if(!response.ok)throw Error('Unavailable');
   const sealed=new Uint8Array(await response.arrayBuffer());
   const bytes=await crypto.subtle.decrypt({name:'AES-GCM',iv:sealed.slice(0,12),additionalData:new TextEncoder().encode('portfolio-package-v1')},key,sealed.slice(12));
   const unpacked=await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
