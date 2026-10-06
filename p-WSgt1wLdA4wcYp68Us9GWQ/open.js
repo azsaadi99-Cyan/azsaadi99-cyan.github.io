@@ -6,7 +6,7 @@
  const decode=s=>Uint8Array.from(atob(s.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));
  try{
   const key=await crypto.subtle.importKey('raw',decode(keyText),'AES-GCM',false,['decrypt']);
-  const response=await fetch('content-14393c3fad2eba.bin');if(!response.ok)throw Error('Unavailable');
+  const response=await fetch('content-b40e07a5104962.bin');if(!response.ok)throw Error('Unavailable');
   const sealed=new Uint8Array(await response.arrayBuffer());
   const bytes=await crypto.subtle.decrypt({name:'AES-GCM',iv:sealed.slice(0,12),additionalData:new TextEncoder().encode('portfolio-package-v1')},key,sealed.slice(12));
   const unpacked=await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
@@ -16,7 +16,7 @@
    let bytes=decode(item.data);
    if(item.type==='text/html'){
     const doc=new DOMParser().parseFromString(new TextDecoder().decode(bytes),'text/html');
-    doc.querySelectorAll('[src],[href],[poster]').forEach(n=>{for(const attr of ['src','href','poster']){const value=n.getAttribute(attr);if(!value)continue;if(value.startsWith('index.html'))n.setAttribute(attr,location.pathname+'#k='+keyText);else if(pack.files[value.split('?')[0]]&&value.split('?')[0]!==name)n.setAttribute(attr,assetURL(value));}});
+    doc.querySelectorAll('[src],[href],[poster]').forEach(n=>{for(const attr of ['src','href','poster']){const value=n.getAttribute(attr);if(!value)continue;const embedded=pack.files[value.split('?')[0]];if(value.startsWith('index.html'))n.setAttribute(attr,location.pathname+'#k='+keyText);else if(embedded&&value.split('?')[0]!==name){if(n.tagName==='LINK'&&n.rel==='stylesheet'){const style=doc.createElement('style');style.textContent=new TextDecoder().decode(decode(embedded.data));n.replaceWith(style);}else n.setAttribute(attr,'data:'+embedded.type+';base64,'+embedded.data);}}});
     bytes=new TextEncoder().encode('<!doctype html>'+doc.documentElement.outerHTML);
    }
    if(name==='app.js'){

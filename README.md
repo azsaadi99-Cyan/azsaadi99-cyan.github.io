@@ -1,3 +1,3 @@
-# Archived public pages
+# Private portfolio link host
 
-Previous public pages and downloads are closed. Project names remain visible as inactive archive cards. The separate encrypted link-access portfolio is preserved.
+Encrypted portfolio packages only. Sharing keys and original documents are not stored in this repository.
